@@ -1,0 +1,107 @@
+---
+export const prerender = false;
+import { Icon } from 'astro-icon/components';
+import { format } from 'date-fns';
+import { rehype } from 'rehype';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
+
+import Page from '$layouts/Page.astro';
+import { getArticle } from '$utils/contentStack';
+
+const pathId = Astro.params.id;
+if (!pathId) return Astro.redirect('/404');
+
+const article = await getArticle(pathId, Astro.url.origin);
+if (!article) return Astro.redirect('/404');
+
+const { title, description, openGraph, bungieUrl, imageUrl } = article;
+
+// Process HTML with rehype to add heading links
+const processedHtml = rehype()
+  .data('settings', { fragment: true })
+  .use(rehypeSlug)
+  .use(rehypeAutolinkHeadings, {
+    behavior: 'append',
+    content: {
+      type: 'text',
+      value: '#',
+    },
+  })
+  .processSync(openGraph.html)
+  .toString();
+
+import '$styles/article.css';
+---
+
+<Page>
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta property="og:site_name" content="fxBungie" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={openGraph['url'] || bungieUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:title" content={openGraph['title'] || title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+
+    <meta property="theme-color" content={openGraph['theme_color'] || '#00a3e3'} />
+    <link
+      type="application/json+oembed"
+      href={`${Astro.url.origin}/api/news/oembed?url=${encodeURIComponent(bungieUrl)}`}
+    />
+
+    <!-- Other meta tags after OpenGraph -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Bungie" />
+    <meta name="twitter:title" content={openGraph['title'] || title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={openGraph['title'] || title} />
+    <meta name="description" content={description} />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={openGraph['url'] || bungieUrl} />
+  </head>
+
+  <div class="mx-auto max-w-4xl" slot="content">
+    <img class="w-full rounded-lg" src={imageUrl} alt={title} loading="lazy" />
+
+    <div class="flex flex-col items-start gap-2 pt-10">
+      <h1 class="text-4xl font-bold">{title}</h1>
+      <p class="italic">{description}</p>
+    </div>
+
+    <div>
+      <div class="flex flex-col gap-2 pt-6 sm:flex-row sm:items-center sm:gap-5">
+        <div class="flex items-center gap-2">
+          <Icon size={25} name="mdi:calendar" class="text-ctp-blue" />
+          <span>
+            {format(new Date(openGraph.date || new Date()), 'MMMM dd, yyyy')}
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <Icon size={25} name="mdi:user-circle" class="text-ctp-blue" />
+          <span>{openGraph.provider_name}</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <Icon size={25} name="mdi:link" class="text-ctp-blue" />
+          <a href={bungieUrl} target="_blank" rel="noopener noreferrer" class="w-fit">
+            View original article
+          </a>
+        </div>
+      </div>
+
+      <hr class="mt-6 border-ctp-mauve dark:border-ctp-blue" />
+
+      <article class:list={['article-content prose break-words pt-10 dark:prose-invert']}>
+        <Fragment set:html={processedHtml} />
+      </article>
+    </div>
+  </div>
+</Page>

@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import Page from '$layouts/Page.astro';
+---
+
+<Page>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>fxBungie - Enhanced Bungie.net Article Embeds</title>
+  </head>
+
+  <div class="flex items-center justify-center" slot="content">
+    <div class="w-full max-w-2xl rounded-lg bg-ctp-mantle p-8">
+      <h2 class="mb-4 text-2xl font-bold">Hello!</h2>
+      <p class="mb-4">
+        fxBungie is a wrapper around Bungie.net that provides improved OpenGraph embed support for
+        platforms like Discord, Twitter, Signal, and more. Enjoy faster loading times and a clean
+        reading experience for Bungie.net articles.
+      </p>
+
+      <h2 class="mb-4 text-2xl font-bold">How to Use</h2>
+      <p class="mb-4">
+        To use fxBungie, simply replace <span class="font-bold">bungie.net</span> with <span
+          class="font-bold">fxbungie.net</span
+        > in any Bungie.net article URL.
+      </p>
+
+      <a
+        href="https://www.bungie.net/7/en/News"
+        class="flex items-center gap-2"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon size={20} name="mdi:newspaper" class="text-ctp-blue" />
+        View latest Bungie articles
+      </a>
+
+      <a
+        href="https://github.com/SapphoSys/fxBungie"
+        class="mt-4 flex items-center gap-2"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon size={20} name="mdi:github" class="text-ctp-blue" />
+        View source code
+      </a>
+    </div>
+  </div>
+</Page>

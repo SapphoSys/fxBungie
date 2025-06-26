@@ -1,0 +1,41 @@
+---
+import '@fontsource/atkinson-hyperlegible/400.css';
+---
+
+<!doctype html>
+<html
+  class="flex flex-col scroll-smooth"
+  lang="en"
+  transition:name="root"
+  transition:animate="none"
+>
+  <slot />
+
+  <body class="flex min-h-screen flex-col text-xl">
+    <header
+      class="mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-y-3 px-8 pt-8"
+    >
+      <div class="flex flex-row items-center gap-3">
+        <img class="size-8" src="/logo.png" alt="fxBungie Logo" loading="lazy" />
+        <a href="/" class="text-2xl font-bold">fxBungie</a>
+      </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-4xl grow gap-2 p-8">
+      <slot name="content" />
+    </main>
+
+    <style is:global>
+      a,
+      button {
+        @apply w-fit rounded-full text-ctp-mauve ease-out hover:underline hover:opacity-50 motion-safe:transition dark:text-ctp-blue;
+        @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base dark:focus-visible:ring-ctp-blue;
+      }
+
+      body {
+        @apply font-body;
+        @apply ctp-latte bg-ctp-base text-ctp-text dark:ctp-macchiato selection:bg-ctp-mauve selection:text-ctp-crust dark:bg-ctp-base dark:selection:bg-ctp-blue;
+      }
+    </style>
+  </body>
+</html>

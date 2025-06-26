@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fxbungie",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-06-19",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fxbungie-cache",
+      "database_id": "9218c952-16e0-4141-a3d9-3038cfd233f2",
+      "preview_database_id": "e191c0b6-ccc3-436b-a4ee-ca5aaa02a5f1",
+    },
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "fxbungie-images",
+      "preview_bucket_name": "fxbungie-images-dev",
+    },
+  ],
+  "triggers": {
+    "crons": ["*/30 * * * *"],
+  },
+}
