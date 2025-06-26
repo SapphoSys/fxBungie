@@ -16,6 +16,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@catppuccin/tailwindcss": "^0.1.6",
     "@fontsource/atkinson-hyperlegible": "^5.2.6",
+    "@fontsource/manrope": "^5.2.6",
     "@iconify-json/mdi": "^1.2.3",
     "@tailwindcss/typography": "^0.5.16",
     "astro": "^5.10.1",
