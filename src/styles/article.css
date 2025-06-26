@@ -11,7 +11,7 @@
   }
 
   & table {
-    @apply text-sm lg:whitespace-nowrap;
+    @apply text-sm;
   }
 
   & iframe {
