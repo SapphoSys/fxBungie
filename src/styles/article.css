@@ -10,6 +10,10 @@
     @apply text-center;
   }
 
+  & table {
+    @apply text-sm lg:whitespace-nowrap;
+  }
+
   & iframe {
     @apply w-full;
     @apply aspect-video;
