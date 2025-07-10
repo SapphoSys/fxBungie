@@ -18,10 +18,11 @@
   }
 
   & :is(h1, h2, h3, h4, h5, h6) {
+    @apply my-6;
     @apply gap-1;
     @apply flex;
 
-    & a {
+    & a[aria-hidden='true'] {
       @apply motion-safe:transition motion-safe:delay-[1ms] motion-safe:ease-in;
       @apply opacity-0;
       @apply pl-1;
@@ -32,7 +33,7 @@
       }
     }
 
-    &:hover a {
+    &:hover a[aria-hidden='true'] {
       @apply opacity-100;
     }
   }
