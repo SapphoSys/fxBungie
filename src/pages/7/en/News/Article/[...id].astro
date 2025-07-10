@@ -17,7 +17,6 @@ if (!article) return Astro.redirect('/404');
 
 const { title, description, openGraph, bungieUrl, imageUrl } = article;
 
-// Process HTML with rehype to add heading links
 const processedHtml = rehype()
   .data('settings', { fragment: true })
   .use(rehypeSlug)
@@ -101,7 +100,7 @@ import '$styles/article.css';
 
       <hr class="mt-6 border-ctp-mauve dark:border-ctp-blue" />
 
-      <article class:list={['article-content prose break-words pt-10 dark:prose-invert']}>
+      <article class="article-content prose break-words pt-10 dark:prose-invert">
         <Fragment set:html={processedHtml} />
       </article>
     </div>
@@ -111,8 +110,5 @@ import '$styles/article.css';
 <style>
   .title {
     @apply font-title;
-  }
-  html {
-    @apply overflow-y-scroll;
   }
 </style>
