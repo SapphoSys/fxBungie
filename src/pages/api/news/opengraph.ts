@@ -2,43 +2,8 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
-interface ContentstackImage {
-  url: string;
-  title?: string;
-}
-
-export interface ContentstackArticle {
-  uid: string;
-  title: string;
-  subtitle: string;
-  author: string;
-  banner_image: ContentstackImage;
-  image: ContentstackImage;
-  html_content: string;
-  date: string;
-  url: {
-    hosted_url: string;
-  };
-}
-
-interface ContentstackResponse {
-  entries: ContentstackArticle[];
-}
-
-interface CachedArticle {
-  id: string;
-  uid: string;
-  title: string;
-  subtitle: string | null;
-  author: string | null;
-  html_content: string | null;
-  date: string;
-  hosted_url: string;
-  created_at: string;
-  updated_at: string;
-  cache_expiry: string;
-  contentstack_data: string;
-}
+import type { CachedArticle } from '$types/cache';
+import type { ContentstackArticle, ContentstackResponse } from '$types/contentStack';
 
 // Simple cache service without external dependencies
 class SimpleArticleCache {

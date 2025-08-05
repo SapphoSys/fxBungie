@@ -1,10 +1,5 @@
-import type {
-  ArticleCacheService,
-  CachedArticle,
-  CachedImage,
-  ContentstackArticle,
-  Env,
-} from '$types/cache';
+import type { ArticleCacheService, CachedArticle, CachedImage, Env } from '$types/cache';
+import type { ContentstackArticle } from '$types/contentStack';
 
 export class ArticleCache implements ArticleCacheService {
   async getArticleFromCache(env: Env, hostedUrl: string): Promise<CachedArticle | null> {

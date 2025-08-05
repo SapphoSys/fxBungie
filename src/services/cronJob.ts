@@ -1,5 +1,6 @@
 import { ArticleCache } from '$services/articleCache';
-import type { ContentstackResponse, CronJobService, Env } from '$types/cache';
+import type { CronJobService, Env } from '$types/cache';
+import type { ContentstackResponse } from '$types/contentStack';
 
 export class CronJob implements CronJobService {
   private articleCache = new ArticleCache();
