@@ -1,0 +1,53 @@
+---
+export const prerender = false;
+import type { ContentstackArticle, ContentstackResponse } from '$types/contentStack';
+
+const fetchLatestArticle = async (): Promise<ContentstackArticle | null> => {
+  const url = new URL('https://cdn.contentstack.io/v3/content_types/news_article/entries/');
+  url.searchParams.append('environment', 'live');
+  url.searchParams.append('locale', 'en-us');
+  url.searchParams.append('desc', 'date');
+  url.searchParams.append('limit', '1');
+
+  const fields = [
+    'uid',
+    'title',
+    'subtitle',
+    'author',
+    'banner_image',
+    'image',
+    'mobile_image',
+    'html_content',
+    'date',
+    'url',
+  ];
+
+  fields.forEach((field) => {
+    url.searchParams.append('only[BASE][]', field);
+  });
+
+  try {
+    const response = await fetch(url.toString(), {
+      headers: {
+        'api_key': Astro.locals.runtime.env.API_KEY,
+        'access_token': Astro.locals.runtime.env.ACCESS_TOKEN,
+        'Content-Type': 'application/json',
+        'x-user-agent': 'contentstack-web/3.15.0',
+      },
+    });
+    if (!response.ok) return null;
+    const data = (await response.json()) as ContentstackResponse;
+    const article = data.entries?.[0] || null;
+    return article;
+  } catch (_err) {
+    return null;
+  }
+};
+
+const latestArticle = await fetchLatestArticle();
+if (!latestArticle || !latestArticle.uid) {
+  return Astro.redirect('/404');
+}
+
+return Astro.redirect(`/7/en/News/Article${latestArticle.url.hosted_url}`);
+---
