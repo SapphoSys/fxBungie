@@ -34,7 +34,4 @@ export default defineConfig({
     }),
     tailwind(),
   ],
-  experimental: {
-    liveContentCollections: true,
-  },
 });
