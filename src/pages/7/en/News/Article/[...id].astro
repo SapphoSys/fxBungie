@@ -13,7 +13,7 @@ const pathId = Astro.params.id;
 if (!pathId) return Astro.redirect('/404');
 
 const article = await getArticle(pathId, Astro.url.origin);
-if (!article) return Astro.redirect('/404');
+if (!article) return Astro.rewrite('/404');
 
 const { title, description, openGraph, bungieUrl, imageUrl } = article;
 
