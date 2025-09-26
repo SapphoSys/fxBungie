@@ -17,7 +17,8 @@ const typography = () => ({
 
       hr: {
         background: '#6027ab',
-        height: '1px',
+        height: '0.0625rem',
+        margin: '0.625em 0 2em 0',
         borderTopWidth: '0',
       },
       a: {
