@@ -4,6 +4,7 @@ export const prerender = false;
 import { Icon } from 'astro-icon/components';
 import { format } from 'date-fns';
 
+import CopyToastProvider from '$components/CopyToastProvider';
 import ToC from '$components/ToC.astro';
 import Page from '$layouts/Page.astro';
 import type { OpenGraphResponse } from '$types/meta';
@@ -82,4 +83,6 @@ import '$styles/article.css';
       </section>
     </div>
   </div>
+
+  <CopyToastProvider client:visible />
 </Page>

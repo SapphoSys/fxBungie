@@ -54,8 +54,15 @@ export function processHtmlWithHeadings(html: string): string {
     .use(rehypeAutolinkHeadings, {
       behavior: 'append',
       content: {
-        type: 'text',
-        value: '#',
+        type: 'element',
+        tagName: 'button',
+        properties: {
+          type: 'button',
+          className: ['heading-anchor-copy'],
+          'aria-label': 'Copy link to section',
+          tabIndex: 0,
+        },
+        children: [{ type: 'text', value: '#' }],
       },
     })
     .processSync(html)
