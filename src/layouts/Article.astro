@@ -30,20 +30,21 @@ import '$styles/article.css';
 <Page {title} {description} {openGraph} {bungieUrl} {imageUrl} fullWidth={true}>
   <div
     class:list={[
-      fullWidth && [
+      // Always center and constrain width except on 2xl+ where we use grid
+      'mx-auto w-full max-w-4xl px-4 sm:px-8',
+      fullWidth &&
         '2xl:container 2xl:grid 2xl:max-w-none 2xl:grid-cols-[minmax(300px,1fr),minmax(0,65ch),1fr] 2xl:items-start 2xl:gap-10',
-      ],
     ]}
   >
     {
       headings && headings.length > 0 && fullWidth && (
-        <aside class="sticky top-8 hidden max-h-screen 2xl:col-start-1 2xl:block 2xl:pl-6">
+        <aside class="sticky top-8 hidden max-h-screen 2xl:col-start-1 2xl:block">
           <ToC headings={headings} />
         </aside>
       )
     }
-    <div class:list={['2xl:col-start-2 2xl:col-end-3', fullWidth && 'px-8']}>
-      <header class="mx-auto flex max-w-4xl flex-col gap-3">
+    <div class:list={['w-full', '2xl:col-start-2 2xl:col-end-3', fullWidth && 'px-0']}>
+      <header class="flex flex-col gap-3">
         <img class="w-full rounded-lg" src={imageUrl} alt={title} loading="lazy" />
 
         <div class="flex flex-col gap-2 pt-5">
@@ -75,12 +76,7 @@ import '$styles/article.css';
         <hr class="mt-3 border-ctp-mauve dark:border-ctp-blue" />
       </header>
 
-      <section
-        class:list={[
-          'article-content prose break-words pt-10 dark:prose-invert',
-          !fullWidth && 'mx-auto max-w-4xl px-8',
-        ]}
-      >
+      <section class:list={['article-content prose break-words pt-10 dark:prose-invert']}>
         <Fragment set:html={processedHtml} />
       </section>
     </div>
