@@ -1,7 +1,7 @@
 const typography = () => ({
   DEFAULT: {
     css: {
-      '--tw-prose-bullets': '#8839ef',
+      '--tw-prose-bullets': '#1e66f5',
       'code::before': {
         content: '""',
       },
@@ -21,7 +21,7 @@ const typography = () => ({
         borderTopWidth: '0',
       },
       a: {
-        color: '#8839ef',
+        color: '#1e66f5',
         textDecorationLine: 'none',
 
         '&:hover': {

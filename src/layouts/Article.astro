@@ -50,7 +50,7 @@ import '$styles/article.css';
         <img class="w-full rounded-lg" src={imageUrl} alt={title} loading="lazy" />
 
         <div class="flex flex-col gap-2 pt-5">
-          <h1 class="title text-4xl font-bold">{title}</h1>
+          <h1 class="font-title text-4xl font-bold">{title}</h1>
           <p class="italic">{description}</p>
         </div>
 
@@ -75,7 +75,7 @@ import '$styles/article.css';
           </div>
         </div>
 
-        <hr class="mt-3 border-ctp-mauve dark:border-ctp-blue" />
+        <hr class="mt-3 border-ctp-blue dark:border-ctp-blue" />
       </header>
 
       <section class:list={['article-content prose break-words pt-10 dark:prose-invert']}>
@@ -84,9 +84,3 @@ import '$styles/article.css';
     </div>
   </div>
 </Page>
-
-<style>
-  .title {
-    @apply font-title;
-  }
-</style>
