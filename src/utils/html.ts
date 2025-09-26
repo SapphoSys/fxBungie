@@ -66,7 +66,7 @@ export function processHtmlWithHeadings(html: string): string {
         properties: {
           type: 'button',
           className: ['heading-anchor-copy'],
-          'aria-label': 'Copy link to section',
+          title: 'Copy link to section',
           tabIndex: 0,
         },
         children: [{ type: 'text', value: '#' }],
