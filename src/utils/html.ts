@@ -3,7 +3,7 @@
  * @param html The HTML string to sanitize.
  */
 export function cleanUpContent(html: string): string {
-  return html.replace(/<br\s*\/?>(\n)?/gi, '');
+  return html.replace(/<br\s*\/?>(\n)?/gi, '').replace(/&nbsp;/gi, '');
 }
 // Types for hast nodes are not imported to avoid module not found error. Use 'any' for compatibility.
 import { toString } from 'hast-util-to-string';
