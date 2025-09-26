@@ -2,7 +2,7 @@
   @apply text-xl;
   @apply -mt-3;
 
-  :is(h1, h2, h3, h4, h5, h6, p, ul, li, strong, span, figcaption, blockquote) {
+  :is(h1, h2, h3, h4, h5, h6, p, ul, li, em, strong, span, figcaption, blockquote) {
     @apply text-ctp-text dark:text-ctp-text;
   }
 
