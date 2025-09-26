@@ -34,17 +34,11 @@ export const getArticle = async (id: string, currentURL: string) => {
       throw new Error(`API returned ${response.status}`);
     }
 
-    const data = (await response.json()) as Record<string, any>;
+    const data: MetaTagsResponse = await response.json();
 
     if (!data.openGraph || Object.keys(data.openGraph).length === 0) {
       console.warn(`[Astro] No OpenGraph data found for article with id: ${id}`);
-      return {
-        title: data.title || 'Untitled Article',
-        openGraph: {},
-        bungieUrl: bungieUrl,
-        imageUrl: '',
-        description: '',
-      };
+      return undefined;
     }
 
     return {
