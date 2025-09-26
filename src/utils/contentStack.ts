@@ -1,3 +1,5 @@
+import type { MetaTagsResponse } from '$types/meta';
+
 export const getArticle = async (id: string, currentURL: string) => {
   const apiUrl = `${currentURL}/api/news/opengraph?id=${encodeURIComponent(id)}`;
   const bungieUrl = `https://www.bungie.net/7/en/News/Article/${encodeURIComponent(id)}`;

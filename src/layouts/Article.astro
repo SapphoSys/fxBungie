@@ -4,11 +4,10 @@ export const prerender = false;
 import { Icon } from 'astro-icon/components';
 import { format } from 'date-fns';
 
+import ToC from '$components/ToC.astro';
 import Page from '$layouts/Page.astro';
-
-import ToC from '~/components/ToC.astro';
-import type { OpenGraphResponse } from '~/types/meta';
-import { cleanUpContent, extractHeadings, processHtmlWithHeadings } from '~/utils/html';
+import type { OpenGraphResponse } from '$types/meta';
+import { cleanUpContent, extractHeadings, processHtmlWithHeadings } from '$utils/html';
 
 interface Props {
   title: string;
