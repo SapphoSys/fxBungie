@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 
 import Page from '$layouts/Page.astro';
 
+import ToC from '~/components/ToC.astro';
+import type { OpenGraphResponse } from '~/types/meta';
 import { extractHeadings, processHtmlWithHeadings } from '~/utils/html';
 
 interface Props {
@@ -23,12 +25,9 @@ const headings = extractHeadings(openGraph.html);
 const processedHtml = processHtmlWithHeadings(openGraph.html);
 
 import '$styles/article.css';
-
-import ToC from '~/components/ToC.astro';
-import type { OpenGraphResponse } from '~/types/meta';
 ---
 
-<Page title={title} description={description} fullWidth={true}>
+<Page {title} {description} {openGraph} {bungieUrl} {imageUrl} fullWidth={true}>
   <header
     class:list={[
       'mx-auto flex max-w-4xl flex-col gap-3',

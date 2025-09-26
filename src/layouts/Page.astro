@@ -14,7 +14,6 @@ interface Props {
 }
 
 const { title, description, openGraph, bungieUrl, imageUrl, fullWidth = false } = Astro.props;
-
 ---
 
 <!doctype html>
@@ -24,17 +23,19 @@ const { title, description, openGraph, bungieUrl, imageUrl, fullWidth = false } 
     <title>{title}</title>
     <meta property="og:site_name" content="fxBungie" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="description" content={description} />
 
-    {openGraph && (
-      <meta property="og:url" content={openGraph['url'] || bungieUrl} />
-      <meta property="og:type" content="website" />
+    {openGraph ? (
+      <meta property="og:url" content={openGraph['url']} />
+      <meta property="og:type" content="article" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:title" content={openGraph['title'] || title} />
-      <meta property="og:description" content={description} />
+      <meta property="og:title" content={openGraph['title']} />
       <meta property="og:image" content={imageUrl} />
 
-      <meta property="theme-color" content={openGraph['theme_color'] || '#00a3e3'} />
+      <meta property="theme-color" content={openGraph['theme_color']} />
       <link
         type="application/json+oembed"
         href={`${Astro.url.origin}/api/news/oembed?url=${encodeURIComponent(bungieUrl ?? '')}`}
@@ -42,12 +43,24 @@ const { title, description, openGraph, bungieUrl, imageUrl, fullWidth = false } 
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@Bungie" />
-      <meta name="twitter:title" content={openGraph['title'] || title} />
+      <meta name="twitter:title" content={openGraph['title']} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
-      <meta name="twitter:image:alt" content={openGraph['title'] || title} />
-      <meta name="description" content={description} />
-      <link rel="canonical" href={openGraph['url'] || bungieUrl} />
+      <meta name="twitter:image:alt" content={openGraph['title']} />
+      <link rel="canonical" href={openGraph['url']} />
+    ) : (
+      <meta property="og:image" content="/logo.png" />
+      <meta property="og:url" content={Astro.url.href} />
+      <meta property="og:type" content="website" />
+
+      <meta property="theme-color" content="#00a3e3" />
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="@SapphoSys" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content="/logo.png" />
+      <meta name="twitter:image:alt" content={title} />
     )}
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
