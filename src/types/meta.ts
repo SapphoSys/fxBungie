@@ -1,19 +1,23 @@
+export interface OpenGraphResponse {
+  'site_name': string;
+  'locale': string;
+  'url': string;
+  'type': string;
+  'image:width': string;
+  'image:height': string;
+  'title': string;
+  'description': string;
+  'image': string;
+  'date': string;
+  'html': string;
+  'provider_name'?: string;
+  'provider_url'?: string;
+  'theme_color'?: string;
+}
+
 export interface MetaTagsResponse {
   title: string;
-  openGraph: {
-    'site_name': string;
-    'locale': string;
-    'url': string;
-    'type': string;
-    'image:width': string;
-    'image:height': string;
-    'title': string;
-    'description': string;
-    'image': string;
-    'provider_name'?: string;
-    'provider_url'?: string;
-    'theme_color'?: string;
-  };
+  openGraph: OpenGraphResponse;
   twitter: {
     'card': string;
     'site': string;

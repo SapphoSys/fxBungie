@@ -1,4 +1,5 @@
 import cloudflare from '@astrojs/cloudflare';
+import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig, envField } from 'astro/config';
 import icon from 'astro-icon';
@@ -32,6 +33,7 @@ export default defineConfig({
         mdi: ['*'],
       },
     }),
+    react(),
     tailwind(),
   ],
 });

@@ -1,0 +1,13 @@
+---
+import TableOfContents from './TableOfContents.tsx';
+import type { Heading } from '$utils/html';
+
+interface Props {
+  headings: Heading[];
+  open?: boolean;
+}
+
+const { headings, open = false } = Astro.props;
+---
+
+<TableOfContents client:visible headings={headings} initialOpen={open} />

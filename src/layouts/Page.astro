@@ -1,11 +1,58 @@
 ---
 import '@fontsource/manrope/400.css';
 import '@fontsource/atkinson-hyperlegible/400.css';
+
+import type { OpenGraphResponse } from '~/types/meta';
+
+interface Props {
+  title: string;
+  description: string;
+  openGraph?: OpenGraphResponse;
+  bungieUrl?: string;
+  imageUrl?: string;
+  fullWidth?: boolean;
+}
+
+const { title, description, openGraph, bungieUrl, imageUrl, fullWidth = false } = Astro.props;
+
 ---
 
 <!doctype html>
 <html class="flex flex-col" lang="en" transition:name="root" transition:animate="none">
-  <slot />
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta property="og:site_name" content="fxBungie" />
+    <meta property="og:locale" content="en_US" />
+
+    {openGraph && (
+      <meta property="og:url" content={openGraph['url'] || bungieUrl} />
+      <meta property="og:type" content="website" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:title" content={openGraph['title'] || title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={imageUrl} />
+
+      <meta property="theme-color" content={openGraph['theme_color'] || '#00a3e3'} />
+      <link
+        type="application/json+oembed"
+        href={`${Astro.url.origin}/api/news/oembed?url=${encodeURIComponent(bungieUrl ?? '')}`}
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@Bungie" />
+      <meta name="twitter:title" content={openGraph['title'] || title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={imageUrl} />
+      <meta name="twitter:image:alt" content={openGraph['title'] || title} />
+      <meta name="description" content={description} />
+      <link rel="canonical" href={openGraph['url'] || bungieUrl} />
+    )}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/logo.png" type="image/x-icon" />
+  </head>
 
   <body class="flex min-h-screen flex-col text-xl">
     <header
@@ -17,8 +64,13 @@ import '@fontsource/atkinson-hyperlegible/400.css';
       </div>
     </header>
 
-    <main class="mx-auto flex w-full max-w-4xl grow gap-2 p-8">
-      <slot name="content" />
+    <main
+      class:list={[
+        'w-full flex-grow py-8',
+        !fullWidth && 'mx-auto flex max-w-4xl flex-col gap-2 px-8',
+      ]}
+    >
+      <slot />
     </main>
 
     <style is:global>
