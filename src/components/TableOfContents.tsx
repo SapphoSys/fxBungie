@@ -33,7 +33,7 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
   const navRef = useRef<HTMLElement>(null);
   const [isOpen, setIsOpen] = useState(initialOpen);
   const [isVisible, setIsVisible] = useState(false);
-  const [isScrollable, setIsScrollable] = useState(initialOpen);
+  const [isScrollable, setIsScrollable] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const processedHeadings = processHeadings(headings);
 
@@ -47,15 +47,23 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
   useEffect(() => {
     if (contentRef.current) {
       requestAnimationFrame(() => {
-        contentRef.current!.style.maxHeight = isOpen
-          ? `${contentRef.current!.scrollHeight}px`
-          : '0px';
+        const finalHeight = contentRef.current!.scrollHeight;
+        contentRef.current!.style.maxHeight = isOpen ? `${finalHeight}px` : '0px';
+        if (isOpen) {
+          // Predict overflow before transition
+          let maxH = window.innerHeight;
+          if (contentRef.current) {
+            const computedMaxHeight = getComputedStyle(contentRef.current).maxHeight;
+            const containerMaxHeight = parseInt(computedMaxHeight || '0', 10);
+            if (containerMaxHeight) {
+              maxH = containerMaxHeight;
+            }
+          }
+          setIsScrollable(finalHeight > maxH);
+        } else {
+          setIsTransitioning(true); // Start transition on close
+        }
       });
-    }
-    if (isOpen) {
-      setIsScrollable(true); // Show scrollbar immediately when opening
-    } else {
-      setIsTransitioning(true); // Start transition on close
     }
   }, [isOpen, headings]);
 
@@ -126,8 +134,8 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
           if (el && heading.slug) headingRefs.current[heading.slug] = el;
         }}
         href={`#${heading.slug}`}
-        className={`text-ctp-text hover:text-ctp-mauve hover:dark:text-ctp-blue ${
-          currentHeading === heading.slug ? 'font-medium !text-ctp-mauve dark:!text-ctp-blue' : ''
+        className={`text-ctp-text hover:text-ctp-blue hover:dark:text-ctp-blue ${
+          currentHeading === heading.slug ? 'font-medium !text-ctp-blue dark:!text-ctp-blue' : ''
         }`}
       >
         {heading.text.replace('#', '')}
@@ -141,14 +149,14 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
   return (
     <nav
       ref={navRef}
-      className={`overflow-hidden rounded-md border-2 border-ctp-mauve bg-ctp-mantle motion-safe:transition-opacity motion-safe:duration-200 dark:border-ctp-blue ${
+      className={`overflow-hidden rounded-md border-2 border-ctp-blue bg-ctp-mantle motion-safe:transition-opacity motion-safe:duration-200 dark:border-ctp-blue ${
         isVisible ? 'opacity-100' : 'opacity-0'
       } flex max-h-screen flex-col 2xl:max-h-[80vh]`}
     >
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full cursor-pointer items-center gap-2 rounded-none bg-ctp-mauve p-3 text-ctp-base hover:no-underline hover:opacity-100 dark:bg-ctp-blue"
+        className="flex w-full cursor-pointer items-center gap-2 rounded-none bg-ctp-blue p-3 text-ctp-base hover:no-underline hover:opacity-100 dark:bg-ctp-blue"
       >
         <Icon
           icon="mdi:table-of-contents"
@@ -169,13 +177,22 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
 
       <div
         ref={contentRef}
-        className={`flex-1 motion-safe:transition-[max-height] motion-safe:duration-200 motion-safe:ease-out [&::-webkit-scrollbar-thumb]:bg-ctp-mauve dark:[&::-webkit-scrollbar-thumb]:bg-ctp-lavender [&::-webkit-scrollbar-track]:bg-ctp-mantle dark:[&::-webkit-scrollbar-track]:bg-ctp-base [&::-webkit-scrollbar]:w-2 ${
+        className={`flex-1 motion-safe:transition-[max-height] motion-safe:duration-200 motion-safe:ease-out [&::-webkit-scrollbar-thumb]:bg-ctp-blue dark:[&::-webkit-scrollbar-thumb]:bg-ctp-lavender [&::-webkit-scrollbar-track]:bg-ctp-mantle dark:[&::-webkit-scrollbar-track]:bg-ctp-base [&::-webkit-scrollbar]:w-2 ${
           isScrollable ? 'overflow-y-auto' : 'overflow-y-hidden'
         }`}
         onTransitionEnd={(e) => {
-          if (e.target === contentRef.current && isTransitioning && !isOpen) {
-            setIsScrollable(false); // Hide scrollbar after collapse animation
-            setIsTransitioning(false);
+          if (e.target === contentRef.current) {
+            if (isOpen) {
+              // After open transition, re-check for edge cases
+              if (contentRef.current) {
+                const needsScroll =
+                  contentRef.current.scrollHeight > contentRef.current.clientHeight;
+                setIsScrollable(needsScroll);
+              }
+            } else if (isTransitioning && !isOpen) {
+              setIsScrollable(false); // Hide scrollbar after collapse animation
+              setIsTransitioning(false);
+            }
           }
         }}
       >
