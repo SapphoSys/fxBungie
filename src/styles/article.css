@@ -22,7 +22,7 @@
     @apply gap-1;
     @apply flex;
 
-    & a[aria-hidden='true'] {
+    & a[aria-hidden] {
       @apply motion-safe:transition motion-safe:delay-[1ms] motion-safe:ease-in;
       @apply opacity-0;
       @apply pl-1;
@@ -33,10 +33,15 @@
       }
     }
 
-    &:hover a[aria-hidden='true'] {
+    &:hover a[aria-hidden],
+    &:hover .heading-anchor-copy {
       @apply opacity-100;
     }
   }
+}
+
+.heading-anchor-copy {
+  pointer-events: auto;
 }
 
 @media (max-width: 768px) {

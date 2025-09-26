@@ -53,6 +53,13 @@ export function processHtmlWithHeadings(html: string): string {
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, {
       behavior: 'append',
+      properties: {
+        tabIndex: -1,
+        ariaHidden: true,
+        href: undefined,
+        role: 'presentation',
+        style: 'pointer-events: none;',
+      },
       content: {
         type: 'element',
         tagName: 'button',
