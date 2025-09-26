@@ -8,7 +8,7 @@ import Page from '$layouts/Page.astro';
 
 import ToC from '~/components/ToC.astro';
 import type { OpenGraphResponse } from '~/types/meta';
-import { extractHeadings, processHtmlWithHeadings } from '~/utils/html';
+import { cleanUpContent, extractHeadings, processHtmlWithHeadings } from '~/utils/html';
 
 interface Props {
   title: string;
@@ -21,8 +21,10 @@ interface Props {
 
 const { title, description, openGraph, bungieUrl, imageUrl, fullWidth } = Astro.props;
 
-const headings = extractHeadings(openGraph.html);
-const processedHtml = processHtmlWithHeadings(openGraph.html);
+// Remove <br> tags from openGraph.html using utility
+const sanitizedHtml = cleanUpContent(openGraph.html);
+const headings = extractHeadings(sanitizedHtml);
+const processedHtml = processHtmlWithHeadings(sanitizedHtml);
 
 import '$styles/article.css';
 ---

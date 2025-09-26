@@ -1,3 +1,10 @@
+/**
+ * Removes all <br> tags from an HTML string.
+ * @param html The HTML string to sanitize.
+ */
+export function cleanUpContent(html: string): string {
+  return html.replace(/<br\s*\/?>(\n)?/gi, '');
+}
 // Types for hast nodes are not imported to avoid module not found error. Use 'any' for compatibility.
 import { toString } from 'hast-util-to-string';
 import { rehype } from 'rehype';
