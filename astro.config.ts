@@ -14,6 +14,12 @@ export default defineConfig({
     },
   }),
 
+  redirects: {
+    '/7/en/News/article/[...slug]': '/7/en/News/Article/[...slug]',
+    '/7/en/news/Article/[...slug]': '/7/en/News/Article/[...slug]',
+    '/7/en/news/article/[...slug]': '/7/en/News/Article/[...slug]',
+  },
+
   env: {
     schema: {
       API_KEY: envField.string({
